@@ -4,26 +4,34 @@ let height = 750;
 let gravity = .3;
 
 // player variables (model)
-let x = width/2;
-let y = 743;
+let x;
+let y;
 let vx = 0;
 let vy = 0;
 let radius = 20;
 let jump = false;
 let touch = false;
 
-var platforms = [
-  {x: width/2 - 70, y: height/2 - 10, width: 140, height: 20},
-  {x: width/4 - 70, y: height * 3/4 - 10, width: 140, height: 20},
-  {x: width * 3/4 - 70, y: height/4 - 10, width: 140, height: 20},
-  // ground:
-  {x: 0, y: height, width: width, height: 20},
-  // ceiling (because gavity can shift)
-  {x: 0, y: -20, width: width, height: 20}
-]
+let platforms;
 
 // called by processing (p5.js) when page is loaded, once
 function setup() {
+
+  width = windowWidth;
+  height = windowHeight-4;
+  x = width/2;
+  y = height/2;
+
+  platforms = [
+    {x: width/2 - 70, y: height/2 - 10, width: 140, height: 20},
+    {x: width/4 - 70, y: height * 3/4 - 10, width: 140, height: 20},
+    {x: width * 3/4 - 70, y: height/4 - 10, width: 140, height: 20},
+    // ground:
+    {x: 0, y: height, width: width, height: 20},
+    // ceiling (because gavity can shift)
+    {x: 0, y: -20, width: width, height: 20}
+  ]
+
   createCanvas(width, height);
 }
 
