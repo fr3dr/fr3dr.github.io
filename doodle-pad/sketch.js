@@ -42,7 +42,7 @@ function setup() {
       if (tgl.checked) {
         rectmode = true;
       } else {
-          rectmode = false;
+        rectmode = false;
       }
     }
 }
@@ -56,7 +56,7 @@ function draw() {
   background(255);
   doodle.stroke(strokeColor);
 
-  if (mouseIsPressed) {
+  if (!rectmode && mouseIsPressed) {
     doodle.strokeWeight(sWS);
     doodle.line(mouseX, mouseY, pmouseX, pmouseY);
   }
@@ -86,7 +86,7 @@ function mousePressed() {
 function mouseReleased() {
 
 
-  if (strokeColor) {
+  if (rectmode) {
     doodle.fill(strokeColor);
     doodle.rect(rectstartx, rectstarty, mouseX - rectstartx, mouseY - rectstarty);
   }
