@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodle Pad</title>
+    <style>
+
+     body {
+       padding: 0px;
+       margin: 0px;
+     }
+
+     #buttons {
+       cursor: default;
+       margin-top: 3px;
+       margin-left: 3px;
+     }
+
+     button {
+       cursor: pointer;
+     }
+
+     #toggles {
+       background: rgb(0, 0, 0);
+     }
+
+     #rect {
+       visibility: hidden;
+     }
+
+     #sliders {
+       position: absolute;
+       top: 0px;
+       left: 395px;
+     }
+
+     #sWS {
+       cursor: ew-resize;
+     }
+
+     canvas.p5Canvas {
+       margin-top: 5px;
+       margin-left: 2px;
+       outline: black solid;
+     }
+
+    </style>
+    <script src="../p5.min.js"></script>
+    <script src="../addons/p5.dom.min.js"></script>
+    <script src="../addons/p5.sound.min.js"></script>
+    <script src="sketch.js"></script>
+  </head>
+  <body>
+
+  <div id="buttons">
+
+    <button id="black" type="button">&nbsp;</button>
+    <button id="red" type="button">&nbsp;</button>
+    <button id="green" type="button">&nbsp;</button>
+    <button id="gray" type="button">&nbsp;</button>
+    <button id="silver" type="button">&nbsp;</button>
+    <button id="maroon" type="button">&nbsp;</button>
+    <button id="purple" type="button">&nbsp;</button>
+    <button id="fuchsia" type="button">&nbsp;</button>
+    <button id="white" type="button">ERASE</button>
+    <button id="eraseall" type="button">EREASE ALL</button>
+    <label id="toggles">
+    <input id="rect" type="checkbox">
+    &nbsp;&nbsp;
+    </label>
+
+  </div>
+
+  <div id="sliders">
+
+    <input type="range" min="1" max="30" id="sWS" value="10">
+    <label id="sw"></label>
+
+  </div>
+
+  </body>
+</html>
