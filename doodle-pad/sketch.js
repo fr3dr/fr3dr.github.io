@@ -17,9 +17,9 @@ function setup() {
   rectmode = false;
   strokeWeight(1);
 
-  let cnv = createCanvas(windowWidth/2, 600);
+  let cnv = createCanvas(windowWidth, windowHeight-40);
 
-  doodle = createGraphics(windowWidth/2, 600);
+  doodle = createGraphics(windowWidth, windowHeight-40);
 
   //Buttons
   let buttons = document.querySelectorAll('button');
