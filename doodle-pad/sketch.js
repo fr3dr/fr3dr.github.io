@@ -28,7 +28,7 @@ function setup() {
       if (this.id == "eraseall") {
         doodle.fill("white");
         doodle.stroke(255);
-        doodle.rect(0, 0, windowWidth/2, 600);
+        doodle.rect(0, 0, windowWidth, 600);
       } else {
           strokeColor = this.id;
       }
