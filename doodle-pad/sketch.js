@@ -17,7 +17,7 @@ function setup() {
   rectmode = false;
   strokeWeight(1);
 
-  let cnv = createCanvas(windowWidth, windowHeight-40);
+  let cnv = createCanvas(windowWidth, windowHeight);
 
   doodle = createGraphics(windowWidth, windowHeight-40);
 
@@ -28,7 +28,7 @@ function setup() {
       if (this.id == "eraseall") {
         doodle.fill("white");
         doodle.stroke(255);
-        doodle.rect(0, 0, windowWidth, 600);
+        doodle.rect(0, 0, windowWidth, windowHeight);
       } else {
           strokeColor = this.id;
       }
