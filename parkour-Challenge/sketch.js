@@ -29,19 +29,24 @@ function setup() {
     // ground
     {x: 0, y: height, width: width, height: 20},
     // platforms middle
-    {x: width/2 - 100, y: height/2 + 300, width: 200, height: 20},
-    {x: width/2 - 100, y: height/2 + 100, width: 200, height: 20},
+    {x: 850, y: height/2 + 300, width: 200, height: 20},
+    {x: 850, y: height/2 + 100, width: 200, height: 20},
+    {x: 850, y: height/2 - 330, width: 200, height: 20},
     // platforms left
-    {x: width/2 - 650, y: height/2 + 180, width: 200, height: 20},
-    {x: width/2 - 940, y: height/2, width: 200, height: 20},
-    {x: width/2 - 780, y: height/2 - 200, width: 200, height: 20}
+    {x: 300, y: height/2 + 180, width: 200, height: 20},
+    {x: 10, y: height/2, width: 200, height: 20},
+    {x: 170, y: height/2 - 200, width: 200, height: 20},
+    // platforms right
+    {x: 1400, y: height/2, width: 200, height: 20},
+    {x: 1400, y: height/2 - 200, width: 200, height: 20}
   ];
 
   coins = [
     // coin middle
-    {x: width/2, y: height/2 + 75, width: 50, height: 50},
+    {x: 950, y: height/2 + 75, width: 50, height: 50},
+    {x: 950, y: height/2 - 355, width: 50, height: 50},
     // coin left
-    {x: width/2 - 680, y: height/2 - 225, width: 50, height: 50}
+    {x: 270, y: height/2 - 225, width: 50, height: 50}
   ];
 
   createCanvas(width, height);
