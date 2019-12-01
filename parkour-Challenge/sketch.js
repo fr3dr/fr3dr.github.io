@@ -15,7 +15,11 @@ let touch = false;
 // game variables
 let platforms;
 let coins;
-let coinCount;
+let coinCount = 0;
+
+// timer variables
+let seconds = 0;
+let centiSeconds = 0;
 
 function setup() {
 
@@ -23,7 +27,9 @@ function setup() {
   height = windowHeight;
   x = width/2;
   y = height - radius;
-  coinColor = (255, 255, 255);
+
+  setInterval(timeSeconds, 1000);
+  setInterval(timeCentiSeconds, 10);
 
   platforms = [
     // ground
@@ -50,25 +56,34 @@ function setup() {
   ];
 
   createCanvas(width, height);
-}
+};
 
+// called every frame by p5.js
 function draw() {
 
   drawObjects();
   detectCoins();
+
+  // coin counter text
+  fill(0, 0, 0);
+  textSize(16);
+  text("coins: " + coinCount + "/3", 3, 15);
+
+  // timer text
+    text(seconds + ":" + centiSeconds, 3, 30);
 
   // jumping
   if (touch && keyIsPressed && keyCode == UP_ARROW) {
     jump = true;
     touch = false;
     yv = -12;
-  }
+  };
 
   if (jump) {
     jump = false;
   } else {
     touch = detectPlatforms();
-  }
+  };
 
   // stay on sides
   if (x > width - radius) {
@@ -77,7 +92,7 @@ function draw() {
   } else if (x < 0 + radius) {
     x = 0 + radius;
     xv = 0;
-  }
+  };
 
   // gravity
   yv = yv + gravity;
@@ -85,7 +100,8 @@ function draw() {
 
   // update x position
   x = x + xv;
-}
+};
+
 // draws the objects
 function drawObjects() {
 
@@ -105,13 +121,12 @@ function drawObjects() {
     rect(platform.x, platform.y, platform.width, platform.height, 5);
   });
 
-  // coins
-  fill(coinColor);
+  // draw coins
   coins.forEach(function(coin) {
     fill(218,165,32);
     ellipse(coin.x, coin.y, coin.width, coin.height);
   });
-}
+};
 
 // collison detection
 function detectPlatforms() {
@@ -127,35 +142,55 @@ function detectPlatforms() {
             y = platform.y + platform.height + radius;
             yv = 0;
             return gravity < 0;
-          }
+          };
           return true;
-        }
-  }
+        };
+  };
   return false;
-}
+};
 
-// coin detection W.I.P
+// coin detection
 function detectCoins() {
   for (let coin of coins) {
+    if (x >= coin.x - coin.width/2 - radius && x <= coin.x + coin.width/2 + radius
+        && y >= coin.y - coin.height/2 - radius && y <= coin.y + coin.height/2 + radius) {
 
-  }
-}
+          coin.x = 10000;
+          coin.y = 10000;
+          coinCount = coinCount + 1;
+        };
+  };
+};
+
+// timer
+function timeSeconds() {
+  if (coinCount < 3) {
+    seconds ++;
+    centiSeconds = 0;
+  };
+};
+
+function timeCentiSeconds() {
+  if (coinCount < 3) {
+    centiSeconds ++;
+  };
+};
 
 // key events
 function keyPressed() {
 
   if (keyCode == RIGHT_ARROW) {
-    xv = 4.5
+    xv = 4.5;
   } else if (keyCode == LEFT_ARROW) {
-    xv = -4.5
-  }
-}
+    xv = -4.5;
+  };
+};
 
 function keyReleased() {
 
   if (keyCode == RIGHT_ARROW) {
-    xv = 0
+    xv = 0;
   } else if (keyCode == LEFT_ARROW) {
-    xv = 0
-  }
-}
+    xv = 0;
+  };
+};
