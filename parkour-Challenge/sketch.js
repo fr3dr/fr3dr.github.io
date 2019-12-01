@@ -18,6 +18,7 @@ let coins;
 let coinCount = 0;
 
 // timer variables
+let minutes = 0;
 let seconds = 0;
 let centiSeconds = 0;
 
@@ -61,8 +62,10 @@ function setup() {
 // called every frame by p5.js
 function draw() {
 
+  // calling all functions that need to be called
   drawObjects();
   detectCoins();
+  timeMinutes();
 
   // coin counter text
   fill(0, 0, 0);
@@ -70,7 +73,7 @@ function draw() {
   text("coins: " + coinCount + "/3", 3, 15);
 
   // timer text
-    text(seconds + ":" + centiSeconds, 3, 30);
+    text(minutes + ":" + seconds + ":" + centiSeconds, 3, 30);
 
   // jumping
   if (touch && keyIsPressed && keyCode == UP_ARROW) {
@@ -85,13 +88,16 @@ function draw() {
     touch = detectPlatforms();
   };
 
-  // stay on sides
+  // stay on sides and top
   if (x > width - radius) {
     x = width - radius;
     xv = 0;
   } else if (x < 0 + radius) {
     x = 0 + radius;
     xv = 0;
+  } else if (y < 0 + radius) {
+    y = 0 + radius;
+    yv = 0;
   };
 
   // gravity
@@ -157,12 +163,19 @@ function detectCoins() {
 
           coin.x = 10000;
           coin.y = 10000;
-          coinCount = coinCount + 1;
+          coinCount ++;
         };
   };
 };
 
 // timer
+function timeMinutes() {
+  if (seconds == 60) {
+    minutes = 1;
+    seconds = 0;
+  };
+};
+
 function timeSeconds() {
   if (coinCount < 3) {
     seconds ++;
