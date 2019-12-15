@@ -15,15 +15,22 @@ let touch = false;
 // game variables
 let platforms;
 let platforms2;
+let platforms3;
 let coins;
 let coins2;
+let coins3;
 let coinCount = 0;
-level = 1;
+let level = 1;
 
 // timer variables
-let minutes = 0;
-let seconds = 0;
-let centiSeconds = 0;
+let ms;
+let sc;
+let mn;
+let msEnd;
+let scEnd;
+let mnEnd;
+
+let stopTimerCall;
 
 function setup() {
 
@@ -31,9 +38,6 @@ function setup() {
   height = windowHeight;
   x = width/2;
   y = height - radius;
-
-  setInterval(timeSeconds, 1000);
-  setInterval(timeCentiSeconds, 10);
 
   platforms = [
 
@@ -75,6 +79,27 @@ function setup() {
     {x: 1405, y: height/2 - 80, width: 200, height: 20}
   ];
 
+  platforms3 = [
+
+    // ground
+    {x: 0, y: height, width: width, height: 20},
+
+    // platforms middle
+    {x: 855, y: height/2 + 200, width: 200, height: 20},
+    {x: 855, y: height/2 + 100, width: 200, height: 20},
+    {x: 855, y: height/2 - 220, width: 200, height: 20},
+    {x: 855, y: height/2 - 320, width: 200, height: 20},
+
+    // platforms left
+    {x: 235, y: height/2, width: 200, height: 20},
+    {x: 235, y: height/2 - 100, width: 200, height: 20},
+
+    // platforms right
+    {x: 1385, y: height/2 - 60, width: 200, height: 20},
+    {x: 1715, y: height/2 - 305, width: 200, height: 20}
+
+  ];
+
   coins = [
 
     // coins middle
@@ -97,6 +122,18 @@ function setup() {
     {x: 1505, y: height/2 - 105, width: 50, height: 50}
   ];
 
+  coins3 = [
+
+    // coins left
+    {x: 335, y: height/2 - 125, width: 50, height: 50},
+
+    // coins right
+    {x: 1815, y: height/2 - 330, width: 50, height: 50},
+
+    // coins middle
+    {x: 955, y: height/2 - 345, width: 50, height: 50}
+  ];
+
   createCanvas(width, height);
 };
 
@@ -106,26 +143,33 @@ function draw() {
   // calling all functions that need to be called
   drawObjects();
   detectCoins();
-  timeMinutes();
 
   // coin counter text
   fill(0, 0, 0);
   textSize(16);
   text("coins: " + coinCount, 3, 30);
 
-  // timer text
-    text(minutes + ":" + seconds + ":" + centiSeconds, 3, 45);
+  // timer stuff
+  if (coinCount == 9 && !stopTimerCall) {
+    stopTimer();
+  } else if (coinCount == 9) {
+    text(nf(mnEnd, 2, 0) + ":" + nf(scEnd, 2, 0) + ":" + nf(msEnd, 3, 0), 3, 45);
+  };
 
   // reset x position after each level and changing level to ++
-    if (coinCount == 3 && level == 1) {
+    if (coinCount == 0 && level == 0) {
       y = height - radius;
       x = 955;
       level ++;
-    } //else if (coinCount == 6 && level == 2) {
-      //y = height - radius;
-      //x = 955;
-      //level ++;
-    //};
+    } else if (coinCount == 3 && level == 1) {
+      y = height - radius;
+      x = 955;
+      level ++;
+    } else if (coinCount == 6 && level == 2) {
+      y = height - radius;
+      x = 955;
+      level ++;
+    };
 
   // level text
     text("level: " + level, 3, 15);
@@ -178,7 +222,9 @@ function drawObjects() {
   rect(x - radius, y - radius, radius * 2, radius * 2, 15);
   fill(0, 0, 0);
 
-  if (coinCount < 3){
+  // draw platforms and coins
+  fill(0);
+  if (level == 1){
 
   // draw platforms for level 1
     platforms.forEach(function(platform) {
@@ -190,7 +236,7 @@ function drawObjects() {
       fill(218,165,32);
       ellipse(coin.x, coin.y, coin.width, coin.height);
     });
-  } else {
+  } else if (level == 2) {
 
     // draw platforms for level 2
     platforms2.forEach(function(platform2) {
@@ -202,9 +248,19 @@ function drawObjects() {
       fill(218,165,32);
       ellipse(coin2.x, coin2.y, coin2.width, coin2.height);
     });
-  };
+  } else if (level == 3) {
 
-  
+    // draw platforms for level 3
+    platforms3.forEach(function(platform3) {
+      rect(platform3.x, platform3.y, platform3.width, platform3.height, 5);
+    });
+
+    // draw coins for level 3
+    coins3.forEach(function(coin3) {
+      fill(218,165,32);
+      ellipse(coin3.x, coin3.y, coin3.width, coin3.height);
+    });
+  };
 };
 
 // collison detection
@@ -226,7 +282,7 @@ function detectPlatforms() {
               return gravity < 0;
             };
             return true;
-        };
+      };
     };
     return false;
   } else if (level == 2) {
@@ -248,10 +304,31 @@ function detectPlatforms() {
               return gravity < 0;
             };
             return true;
-          };
       };
-      return false;
     };
+      return false;
+  } else if (level == 3) {
+
+    for (let platform3 of platforms3) {
+
+      if (x >= platform3.x - radius && x <= platform3.x + platform3.width + radius
+        && y >= platform3.y - radius && y <= platform3.y + platform3.height + radius) {
+
+          if (yv > 0 && y > platform3.y - radius) {
+
+            y = platform3.y - radius;
+            yv = 0;
+            return gravity > 0;
+          } else if (yv < 0 && y > platform3.height + radius) {
+
+            y = platform3.y + platform3.height + radius;
+            yv = 0;
+            return gravity < 0;
+          };
+          return true;
+      };
+    };
+  };
 };
 
 // coin detection
@@ -266,7 +343,7 @@ function detectCoins() {
             coin.x = 10000;
             coin.y = 10000;
             coinCount ++;
-          };
+      };
     };
   } else if (level == 2) {
 
@@ -278,32 +355,33 @@ function detectCoins() {
             coin2.x = 10000;
             coin2.y = 10000;
             coinCount ++;
-          };
+      };
+    };
+  } else if (level == 3) {
+
+    for (let coin3 of coins3) {
+
+      if (x >= coin3.x - coin3.width/2 - radius && x <= coin3.x + coin3.width/2 + radius
+          && y >= coin3.y - coin3.height/2 - radius && y <= coin3.y + coin3.height/2 + radius) {
+  
+            coin3.x = 10000;
+            coin3.y = 10000;
+            coinCount ++;
+      };
     };
   };
-
-  
 };
 
-// timer
-function timeMinutes() {
-  if (seconds == 60) {
-    minutes = 1;
-    seconds = 0;
-  };
-};
+// stop timer
+function stopTimer() {
+  ms = millis();
+  sc = ms / 1000;
+  mn = sc / 60;
+  stopTimerCall = true;
+  mnEnd = int(mn);
+  scEnd = (mn - mnEnd) * 60;
+  msEnd = ms - (int(ms / 1000) * 1000);
 
-function timeSeconds() {
-  if (coinCount < 6) {
-    seconds ++;
-    centiSeconds = 0;
-  };
-};
-
-function timeCentiSeconds() {
-  if (coinCount < 6) {
-    centiSeconds ++;
-  };
 };
 
 // key events
