@@ -143,7 +143,7 @@ function draw() {
   // updating timer
   if (!stopped) {
     time = millis();
-  }
+  };
   drawTime();
 
   // all coins of level collected
@@ -156,8 +156,8 @@ function draw() {
       y = height - radius;
       x = 955;
       level++;
-    }
-  }
+    };
+  };
 
   // level text
   text("level: " + (level+1), 3, 15);
@@ -167,13 +167,13 @@ function draw() {
     jump = true;
     touch = false;
     yv = -12;
-  }
+  };
 
   if (jump) {
     jump = false;
   } else {
     touch = detectPlatforms();
-  }
+  };
 
   // stay on sides and top
   if (x > width - radius) {
@@ -185,7 +185,7 @@ function draw() {
   } else if (y < 0 + radius) {
     y = 0 + radius;
     yv = 0;
-  }
+  };
 
   // gravity
   yv = yv + gravity;
@@ -193,7 +193,7 @@ function draw() {
 
   // update x position
   x = x + xv;
-}
+};
 
 // draws the objects
 function drawObjects() {
@@ -206,7 +206,7 @@ function drawObjects() {
 
   // draw player
   fill(255, 255, 255);
-  rect(x - radius, y - radius, radius * 2, radius * 2, 15);
+  rect(x - radius, y - radius, radius * 2, radius * 2, 10);
   fill(0, 0, 0);
 
   // draw platforms and coins
@@ -232,7 +232,7 @@ function drawTime() {
   sec = sec % 60;
 
   text(nf(min, 2, 0) + ":" + nf(sec, 2, 2), 3, 45);
-}
+};
 
 // collison detection
 // returns true if on touching ground or platform (on top) and false if not
@@ -265,13 +265,12 @@ function detectPlatforms() {
             xv = 0;
             return false;
           } else {
-            // should NEVER happen
-            console.log("no colllison!")
-          }
-    }
-  }
+            console.log("no colllison!");
+          };
+    };
+  };
   return false;
-}
+};
 
 // coin detection
 function detectCoins() {
@@ -282,11 +281,11 @@ function detectCoins() {
         && y >= coin.y - coin.height/2 - radius && y <= coin.y + coin.height/2 + radius) {
 
           // remove object from array
-          levels[level].coins.splice(index, 1)
+          levels[level].coins.splice(index, 1);
           coinCount ++;
-    }
-  })
-}
+    };
+  });
+};
 
 // key events
 function keyEvents() {
@@ -298,4 +297,4 @@ function keyEvents() {
   } else {
     xv = 0;
   }
-}
+};
