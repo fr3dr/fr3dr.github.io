@@ -243,30 +243,34 @@ function detectPlatforms() {
     if (x >= platform.x - radius && x <= platform.x + platform.width + radius
         && y >= platform.y - radius && y <= platform.y + platform.height + radius) {
 
-          dytop = y + radius - platform.y;
-          dxleft = x + radius - platform.x;
-          dybottom = platform.y + platform.height - (y - radius);
-          dxright = platform.x + platform.width - (x - radius);
+          let dytop = y + radius - platform.y;
+          let dxleft = x + radius - platform.x;
+          let dybottom = platform.y + platform.height - (y - radius);
+          let dxright = platform.x + platform.width - (x - radius);
 
           if (yv >= 0 && dxleft >= dytop && dxright >= dytop) {
             y = platform.y - radius;
             yv = 0;
+            console.log("top")
             return true;
-          } else if (yv < 0 && dxleft >= dybottom && dxright >= dybottom) {
+          } else if (yv <= 0 && dxleft >= dybottom && dxright >= dybottom) {
             y = platform.y + platform.height + radius;
             yv = 0;
+            console.log("bottom")
             return false;
-          } else if (dxleft < dxright) {
+          } else if (xv >= 0 && dxleft < dxright) {
             x = platform.x - radius;
+            console.log("left")
             xv = 0;
             return false;
-          } else if (dxleft > dxright) {
+          } else if (xv <= 0 && dxleft > dxright) {
             x = platform.x + platform.width + radius;
             xv = 0;
+            console.log("right")
             return false;
           } else {
             // should NEVER happen
-            alert("no colllison!")
+            console.log("no colllison!")
           }
     }
   }
