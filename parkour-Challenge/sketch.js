@@ -251,22 +251,18 @@ function detectPlatforms() {
           if (yv >= 0 && dxleft >= dytop && dxright >= dytop) {
             y = platform.y - radius;
             yv = 0;
-            console.log("top")
             return true;
           } else if (yv <= 0 && dxleft >= dybottom && dxright >= dybottom) {
             y = platform.y + platform.height + radius;
             yv = 0;
-            console.log("bottom")
             return false;
           } else if (xv >= 0 && dxleft < dxright) {
             x = platform.x - radius;
-            console.log("left")
             xv = 0;
             return false;
           } else if (xv <= 0 && dxleft > dxright) {
             x = platform.x + platform.width + radius;
             xv = 0;
-            console.log("right")
             return false;
           } else {
             // should NEVER happen
