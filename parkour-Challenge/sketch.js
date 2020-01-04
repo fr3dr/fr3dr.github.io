@@ -13,24 +13,13 @@ let jump = false;
 let touch = false;
 
 // game variables
-let platforms;
-let platforms2;
-let platforms3;
-let coins;
-let coins2;
-let coins3;
+let levels = [];
 let coinCount = 0;
-let level = 1;
+let level = 0;
 
 // timer variables
-let ms;
-let sc;
-let mn;
-let msEnd;
-let scEnd;
-let mnEnd;
-
-let stopTimerCall;
+let time = 0;
+let stopped = false;
 
 function setup() {
 
@@ -39,100 +28,102 @@ function setup() {
   x = width/2;
   y = height - radius;
 
-  platforms = [
+  levels[0] = {
+    platforms: [
 
-    // ground
-    {x: 0, y: height, width: width, height: 20},
+      // ground
+      {x: 0, y: height, width: width, height: 20},
 
-    // platforms middle
-    {x: 855, y: height/2 + 300, width: 200, height: 20},
-    {x: 855, y: height/2 + 100, width: 200, height: 20},
-    {x: 855, y: height/2 - 330, width: 200, height: 20},
+      // platforms middle
+      {x: 855, y: height/2 + 300, width: 200, height: 20},
+      {x: 855, y: height/2 + 100, width: 200, height: 20},
+      {x: 855, y: height/2 - 330, width: 200, height: 20},
 
-    // platforms left
-    {x: 305, y: height/2 + 180, width: 200, height: 20},
-    {x: 15, y: height/2, width: 200, height: 20},
-    {x: 175, y: height/2 - 200, width: 200, height: 20},
+      // platforms left
+      {x: 305, y: height/2 + 180, width: 200, height: 20},
+      {x: 15, y: height/2, width: 200, height: 20},
+      {x: 175, y: height/2 - 200, width: 200, height: 20},
 
-    // platforms right
-    {x: 1405, y: height/2, width: 200, height: 20},
-    {x: 1405, y: height/2 - 200, width: 200, height: 20}
-  ];
+      // platforms right
+      {x: 1355, y: height/2, width: 200, height: 20},
+      {x: 1355, y: height/2 - 200, width: 200, height: 20}
+    ],
+    coins: [
 
-  platforms2 = [
+      // coins middle
+      {x: 955, y: height/2 + 75, width: 50, height: 50},
+      {x: 955, y: height/2 - 355, width: 50, height: 50},
 
-    // ground
-    {x: 0, y: height, width: width, height: 20},
+      // coins left
+      {x: 275, y: height/2 - 225, width: 50, height: 50}
+    ]
+  };
 
-    // platforms middle
-    {x: 855, y: height/2 + 300, width: 200, height: 20},
-    {x: 855, y: height/2 + 180, width: 200, height: 20},
-    {x: 855, y: height/2 - 40, width: 200, height: 20},
+  levels[1] = {
+    platforms: [
 
-    // platforms left
-    {x: 265, y: height/2 - 80, width: 200, height: 20},
-    {x: 265, y: height/2 - 200, width: 200, height: 20},
-    {x: 5, y: height/2 - 320, width: 200, height: 20},
+      // ground
+      {x: 0, y: height, width: width, height: 20},
 
-    // platforms right
-    {x: 1405, y: height/2 - 160, width: 200, height: 20},
-    {x: 1405, y: height/2 - 80, width: 200, height: 20}
-  ];
+      // platforms middle
+      {x: 855, y: height/2 + 300, width: 200, height: 20},
+      {x: 855, y: height/2 + 180, width: 200, height: 20},
+      {x: 855, y: height/2 - 40, width: 200, height: 20},
 
-  platforms3 = [
+      // platforms left
+      {x: 355, y: height/2 - 140, width: 200, height: 20},
+      {x: 355, y: height/2 - 260, width: 200, height: 20},
+      {x: 5, y: height/2 - 400, width: 200, height: 20},
 
-    // ground
-    {x: 0, y: height, width: width, height: 20},
+      // platforms right
+      {x: 1405, y: height/2 - 200, width: 200, height: 20},
+      {x: 1405, y: height/2 - 80, width: 200, height: 20}
+    ],
+    coins: [
 
-    // platforms middle
-    {x: 855, y: height/2 + 200, width: 200, height: 20},
-    {x: 855, y: height/2 + 100, width: 200, height: 20},
-    {x: 855, y: height/2 - 220, width: 200, height: 20},
-    {x: 855, y: height/2 - 320, width: 200, height: 20},
+      // coins middle
+      {x: 955, y: height/2 - 65, width: 50, height: 50},
 
-    // platforms left
-    {x: 235, y: height/2, width: 200, height: 20},
-    {x: 235, y: height/2 - 100, width: 200, height: 20},
+      // coins left
+      {x: 105, y: height/2 - 425, width: 50, height: 50},
 
-    // platforms right
-    {x: 1385, y: height/2 - 60, width: 200, height: 20},
-    {x: 1715, y: height/2 - 305, width: 200, height: 20}
+      // coins right
+      {x: 1505, y: height/2 - 225, width: 50, height: 50}
+    ]
+  };
 
-  ];
+  levels[2] = {
+    platforms: [
 
-  coins = [
+      // ground
+      {x: 0, y: height, width: width, height: 20},
 
-    // coins middle
-    {x: 955, y: height/2 + 75, width: 50, height: 50},
-    {x: 955, y: height/2 - 355, width: 50, height: 50},
+      // platforms middle
+      {x: 855, y: height/2 + 260, width: 200, height: 20},
+      {x: 855, y: height/2 + 150, width: 200, height: 20},
+      {x: 855, y: height/2 - 270, width: 200, height: 20},
+      {x: 855, y: height/2 - 370, width: 200, height: 20},
 
-    // coins left
-    {x: 275, y: height/2 - 225, width: 50, height: 50}
-  ];
+      // platforms left
+      {x: 305, y: height/2, width: 200, height: 20},
+      {x: 305, y: height/2 - 110, width: 200, height: 20},
 
-  coins2 = [
+      // platforms right
+      {x: 1305, y: height/2 - 60, width: 200, height: 20},
+      {x: 1715, y: height/2 - 280, width: 200, height: 20}
+    ],
+    coins: [
 
-    // coins middle
-    {x: 955, y: height/2 - 65, width: 50, height: 50},
+      // coins left
+      {x: 405, y: height/2 - 135, width: 50, height: 50},
 
-    // coins left
-    {x: 105, y: height/2 - 345, width: 50, height: 50},
+      // coins right
+      {x: 1815, y: height/2 - 305, width: 50, height: 50},
 
-    // coins right
-    {x: 1505, y: height/2 - 105, width: 50, height: 50}
-  ];
-
-  coins3 = [
-
-    // coins left
-    {x: 335, y: height/2 - 125, width: 50, height: 50},
-
-    // coins right
-    {x: 1815, y: height/2 - 330, width: 50, height: 50},
-
-    // coins middle
-    {x: 955, y: height/2 - 345, width: 50, height: 50}
-  ];
+      // coins middle
+      {x: 955, y: height/2 - 395, width: 50, height: 50}
+    ]
+  };
 
   createCanvas(width, height);
 };
@@ -140,52 +131,49 @@ function setup() {
 // called every frame by p5.js
 function draw() {
 
-  // calling all functions that need to be called
   drawObjects();
   detectCoins();
+  keyEvents();
 
   // coin counter text
   fill(0, 0, 0);
   textSize(16);
   text("coins: " + coinCount, 3, 30);
 
-  // timer stuff
-  if (coinCount == 9 && !stopTimerCall) {
-    stopTimer();
-  } else if (coinCount == 9) {
-    text(nf(mnEnd, 2, 0) + ":" + nf(scEnd, 2, 0) + ":" + nf(msEnd, 3, 0), 3, 45);
-  };
+  // updating timer
+  if (!stopped) {
+    time = millis();
+  }
+  drawTime();
 
-  // reset x position after each level and changing level to ++
-    if (coinCount == 0 && level == 0) {
+  // all coins of level collected
+  if (levels[level].coins.length == 0) {
+    if (levels.length == level+1) {
+      // stop timer
+      stopped = true;
+    } else {
+      // reset x and y position and increment level
       y = height - radius;
       x = 955;
-      level ++;
-    } else if (coinCount == 3 && level == 1) {
-      y = height - radius;
-      x = 955;
-      level ++;
-    } else if (coinCount == 6 && level == 2) {
-      y = height - radius;
-      x = 955;
-      level ++;
-    };
+      level++;
+    }
+  }
 
   // level text
-    text("level: " + level, 3, 15);
+  text("level: " + (level+1), 3, 15);
 
   // jumping
-  if (touch && keyIsPressed && keyCode == UP_ARROW) {
+  if (touch && keyIsDown(UP_ARROW)) {
     jump = true;
     touch = false;
     yv = -12;
-  };
+  }
 
   if (jump) {
     jump = false;
   } else {
     touch = detectPlatforms();
-  };
+  }
 
   // stay on sides and top
   if (x > width - radius) {
@@ -197,7 +185,7 @@ function draw() {
   } else if (y < 0 + radius) {
     y = 0 + radius;
     yv = 0;
-  };
+  }
 
   // gravity
   yv = yv + gravity;
@@ -205,7 +193,7 @@ function draw() {
 
   // update x position
   x = x + xv;
-};
+}
 
 // draws the objects
 function drawObjects() {
@@ -213,9 +201,8 @@ function drawObjects() {
   noStroke();
 
   // clear background
-  background(0, 195, 255);
+  background(100);
   fill(255, 236, 0);
-  ellipse(100, 100, 120, 120);
 
   // draw player
   fill(255, 255, 255);
@@ -224,181 +211,91 @@ function drawObjects() {
 
   // draw platforms and coins
   fill(0);
-  if (level == 1){
 
-  // draw platforms for level 1
-    platforms.forEach(function(platform) {
-      rect(platform.x, platform.y, platform.width, platform.height, 5);
-    });
+  // draw platforms for level
+  levels[level].platforms.forEach(function(platform) {
+    rect(platform.x, platform.y, platform.width, platform.height, 5);
+  });
 
-  // draw coins for level 1
-    coins.forEach(function(coin) {
-      fill(218,165,32);
-      ellipse(coin.x, coin.y, coin.width, coin.height);
-    });
-  } else if (level == 2) {
-
-    // draw platforms for level 2
-    platforms2.forEach(function(platform2) {
-      rect(platform2.x, platform2.y, platform2.width, platform2.height, 5);
-    });
-
-    // draw coins for level 2
-    coins2.forEach(function(coin2) {
-      fill(218,165,32);
-      ellipse(coin2.x, coin2.y, coin2.width, coin2.height);
-    });
-  } else if (level == 3) {
-
-    // draw platforms for level 3
-    platforms3.forEach(function(platform3) {
-      rect(platform3.x, platform3.y, platform3.width, platform3.height, 5);
-    });
-
-    // draw coins for level 3
-    coins3.forEach(function(coin3) {
-      fill(218,165,32);
-      ellipse(coin3.x, coin3.y, coin3.width, coin3.height);
-    });
-  };
+  // draw coins for level
+  levels[level].coins.forEach(function(coin) {
+    fill(218,165,32);
+    ellipse(coin.x, coin.y, coin.width, coin.height);
+  });
 };
+
+// the function for drawing the timer text
+function drawTime() {
+
+  sec = time / 1000;
+  min = int(sec / 60);
+  sec = sec % 60;
+
+  text(nf(min, 2, 0) + ":" + nf(sec, 2, 2), 3, 45);
+}
 
 // collison detection
+// returns true if on touching ground or platform (on top) and false if not
 function detectPlatforms() {
-  if (level == 1) {
 
-    for (let platform of platforms) {
+  for (let platform of levels[level].platforms) {
 
-      if (x >= platform.x - radius && x <= platform.x + platform.width + radius
-          && y >= platform.y - radius && y <= platform.y + platform.height + radius) {
+    if (x >= platform.x - radius && x <= platform.x + platform.width + radius
+        && y >= platform.y - radius && y <= platform.y + platform.height + radius) {
 
-            if (yv > 0 && y > platform.y - radius) {
-              y = platform.y - radius;
-              yv = 0;
-              return gravity > 0;
-            } else if (yv < 0 && y > platform.height + radius) {
-              y = platform.y + platform.height + radius;
-              yv = 0;
-              return gravity < 0;
-            };
-            return true;
-      };
-    };
-    return false;
-  } else if (level == 2) {
+          dytop = y + radius - platform.y;
+          dxleft = x + radius - platform.x;
+          dybottom = platform.y + platform.height - (y - radius);
+          dxright = platform.x + platform.width - (x - radius);
 
-    for (let platform2 of platforms2) {
-
-      if (x >= platform2.x - radius && x <= platform2.x + platform2.width + radius
-          && y >= platform2.y - radius && y <= platform2.y + platform2.height + radius) {
-
-            if (yv > 0 && y > platform2.y - radius) {
-
-              y = platform2.y - radius;
-              yv = 0;
-              return gravity > 0;
-            } else if (yv < 0 && y > platform2.height + radius) {
-
-              y = platform2.y + platform2.height + radius;
-              yv = 0;
-              return gravity < 0;
-            };
-            return true;
-      };
-    };
-      return false;
-  } else if (level == 3) {
-
-    for (let platform3 of platforms3) {
-
-      if (x >= platform3.x - radius && x <= platform3.x + platform3.width + radius
-        && y >= platform3.y - radius && y <= platform3.y + platform3.height + radius) {
-
-          if (yv > 0 && y > platform3.y - radius) {
-
-            y = platform3.y - radius;
+          if (yv >= 0 && dxleft >= dytop && dxright >= dytop) {
+            y = platform.y - radius;
             yv = 0;
-            return gravity > 0;
-          } else if (yv < 0 && y > platform3.height + radius) {
-
-            y = platform3.y + platform3.height + radius;
+            return true;
+          } else if (yv < 0 && dxleft >= dybottom && dxright >= dybottom) {
+            y = platform.y + platform.height + radius;
             yv = 0;
-            return gravity < 0;
-          };
-          return true;
-      };
-    };
-  };
-};
+            return false;
+          } else if (dxleft < dxright) {
+            x = platform.x - radius;
+            xv = 0;
+            return false;
+          } else if (dxleft > dxright) {
+            x = platform.x + platform.width + radius;
+            xv = 0;
+            return false;
+          } else {
+            // should NEVER happen
+            alert("no colllison!")
+          }
+    }
+  }
+  return false;
+}
 
 // coin detection
 function detectCoins() {
-  if (level == 1) {
 
-    for (let coin of coins) {
+  levels[level].coins.forEach(function(coin, index) {
 
-      if (x >= coin.x - coin.width/2 - radius && x <= coin.x + coin.width/2 + radius
-          && y >= coin.y - coin.height/2 - radius && y <= coin.y + coin.height/2 + radius) {
-  
-            coin.x = 10000;
-            coin.y = 10000;
-            coinCount ++;
-      };
-    };
-  } else if (level == 2) {
+    if (x >= coin.x - coin.width/2 - radius && x <= coin.x + coin.width/2 + radius
+        && y >= coin.y - coin.height/2 - radius && y <= coin.y + coin.height/2 + radius) {
 
-    for (let coin2 of coins2) {
-
-      if (x >= coin2.x - coin2.width/2 - radius && x <= coin2.x + coin2.width/2 + radius
-          && y >= coin2.y - coin2.height/2 - radius && y <= coin2.y + coin2.height/2 + radius) {
-  
-            coin2.x = 10000;
-            coin2.y = 10000;
-            coinCount ++;
-      };
-    };
-  } else if (level == 3) {
-
-    for (let coin3 of coins3) {
-
-      if (x >= coin3.x - coin3.width/2 - radius && x <= coin3.x + coin3.width/2 + radius
-          && y >= coin3.y - coin3.height/2 - radius && y <= coin3.y + coin3.height/2 + radius) {
-  
-            coin3.x = 10000;
-            coin3.y = 10000;
-            coinCount ++;
-      };
-    };
-  };
-};
-
-// stop timer
-function stopTimer() {
-  ms = millis();
-  sc = ms / 1000;
-  mn = sc / 60;
-  stopTimerCall = true;
-  mnEnd = int(mn);
-  scEnd = (mn - mnEnd) * 60;
-  msEnd = ms - (int(ms / 1000) * 1000);
-
-};
+          // remove object from array
+          levels[level].coins.splice(index, 1)
+          coinCount ++;
+    }
+  })
+}
 
 // key events
-function keyPressed() {
+function keyEvents() {
 
-  if (keyCode == RIGHT_ARROW) {
+  if (keyIsDown(RIGHT_ARROW)) {
     xv = 4.5;
-  } else if (keyCode == LEFT_ARROW) {
+  } else if (keyIsDown(LEFT_ARROW)) {
     xv = -4.5;
-  };
-};
-
-function keyReleased() {
-
-  if (keyCode == RIGHT_ARROW) {
+  } else {
     xv = 0;
-  } else if (keyCode == LEFT_ARROW) {
-    xv = 0;
-  };
-};
+  }
+}
