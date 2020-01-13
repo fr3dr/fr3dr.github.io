@@ -101,7 +101,7 @@ function setup() {
       // platforms middle
       {x: 855, y: height/2 + 260, width: 200, height: 20},
       {x: 855, y: height/2 + 150, width: 200, height: 20},
-      {x: 855, y: height/2 - 270, width: 200, height: 20},
+      {x: 855, y: height/2 - 270, width: 200, height: 320},
       {x: 855, y: height/2 - 370, width: 200, height: 20},
 
       // platforms left
@@ -122,6 +122,43 @@ function setup() {
 
       // coins middle
       {x: 955, y: height/2 - 395, width: 50, height: 50}
+    ]
+  };
+
+  levels[3] = {
+    platforms: [
+
+      // ground
+      {x: 0, y: height, width: width, height: 20},
+
+      // platforms middle
+      {x: 855, y: height/2 + 260, width: 200, height: 20},
+      {x: 855, y: height/2 - 420, width: 200, height: 600},
+
+      // platforms left
+      {x: 555, y: height/2 + 40, width: 200, height: 20},
+      {x: 555, y: height/2 - 60, width: 200, height: 20},
+      {x: 55, y: height/2 - 200, width: 200, height: 20},
+      {x: 555, y: height/2 - 360, width: 200, height: 20},
+      {x: 55, y: height/2 - 300, width: 200, height: 20},
+
+      // platforms right
+      {x: 1205, y: height/2 + 100, width: 200, height: 20},
+      {x: 1205, y: height/2, width: 200, height: 20},
+      {x: 1160, y: height/2 - 180, width: 280, height: 20},
+      {x: 1115, y: height/2 - 360, width: 365, height: 20},
+    ],
+
+    coins: [
+
+      // coins left
+      {x: 155, y: height/2 - 325, width: 50, height: 50},
+
+      // coins middle
+      {x: 955, y: height/2 - 445, width: 50, height: 50},
+
+      // coins right
+      {x: 1305, y: height/2 - 385, width: 50, height: 50}
     ]
   };
 
@@ -256,7 +293,9 @@ function detectPlatforms() {
             y = platform.y + platform.height + radius;
             yv = 0;
             return false;
-          } else if (xv >= 0 && dxleft < dxright) {
+          };
+
+          if (xv >= 0 && dxleft < dxright) {
             x = platform.x - radius;
             xv = 0;
             return false;
@@ -264,8 +303,6 @@ function detectPlatforms() {
             x = platform.x + platform.width + radius;
             xv = 0;
             return false;
-          } else {
-            console.log("no colllison!");
           };
     };
   };
