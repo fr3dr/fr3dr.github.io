@@ -36,15 +36,15 @@ function setup() {
     btn.style = "Background: " + btn.id
   }
 
-    //Toggles
-    let tgl = document.getElementById('rect');
-    tgl.onclick = function () {
-      if (tgl.checked) {
-        rectmode = true;
-      } else {
-        rectmode = false;
-      }
+  //Toggles
+  let tgl = document.getElementById('rect');
+  tgl.onclick = function () {
+    if (tgl.checked) {
+      rectmode = true;
+    } else {
+      rectmode = false;
     }
+  }
 }
 
 // Drawing

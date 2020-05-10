@@ -29,6 +29,7 @@ function setup() {
   y = height - radius;
 
   levels[0] = {
+
     platforms: [
 
       // ground
@@ -60,6 +61,7 @@ function setup() {
   };
 
   levels[1] = {
+
     platforms: [
 
       // ground
@@ -93,6 +95,7 @@ function setup() {
   };
 
   levels[2] = {
+
     platforms: [
 
       // ground
@@ -126,6 +129,7 @@ function setup() {
   };
 
   levels[3] = {
+
     platforms: [
 
       // ground
@@ -143,10 +147,10 @@ function setup() {
       {x: 55, y: height/2 - 300, width: 200, height: 20},
 
       // platforms right
-      {x: 1205, y: height/2 + 100, width: 200, height: 20},
-      {x: 1205, y: height/2, width: 200, height: 20},
-      {x: 1160, y: height/2 - 180, width: 280, height: 20},
-      {x: 1115, y: height/2 - 360, width: 365, height: 20},
+      {x: 1255, y: height/2 + 100, width: 200, height: 20},
+      {x: 1255, y: height/2, width: 200, height: 20},
+      {x: 1210, y: height/2 - 180, width: 280, height: 20},
+      {x: 1165, y: height/2 - 360, width: 365, height: 20},
     ],
 
     coins: [
@@ -158,7 +162,25 @@ function setup() {
       {x: 955, y: height/2 - 445, width: 50, height: 50},
 
       // coins right
-      {x: 1305, y: height/2 - 385, width: 50, height: 50}
+      {x: 1355, y: height/2 - 385, width: 50, height: 50}
+    ]
+  };
+
+  levels[4] = {
+
+    platforms: [
+
+      // ground
+      {x: 0, y: height, width: width, height: 20},
+
+      // platforms middle
+      {x: 855, y: height/2 + 260, width: 200, height: 20},
+      {x: 835, y: height/2 + 140, width: 240, height: 20},
+      {x: 835, y: height/2 - 260, width: 240, height: 320},
+    ],
+
+    coins: [
+      
     ]
   };
 
@@ -197,10 +219,10 @@ function draw() {
   };
 
   // level text
-  text("level: " + (level+1), 3, 15);
+  text("level: " + (level + 1), 3, 15);
 
   // jumping
-  if (touch && keyIsDown(UP_ARROW)) {
+  if (touch && (keyIsDown(UP_ARROW) || keyIsDown(32))) {
     jump = true;
     touch = false;
     yv = -12;
@@ -272,7 +294,7 @@ function drawTime() {
 };
 
 // collison detection
-// returns true if on touching ground or platform (on top) and false if not
+// returns true if on ground or a platform (on top) and false if not
 function detectPlatforms() {
 
   for (let platform of levels[level].platforms) {
@@ -327,9 +349,9 @@ function detectCoins() {
 // key events
 function keyEvents() {
 
-  if (keyIsDown(RIGHT_ARROW)) {
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
     xv = 4.5;
-  } else if (keyIsDown(LEFT_ARROW)) {
+  } else if (keyIsDown(LEFT_ARROW) || keyIsDown(65)){
     xv = -4.5;
   } else {
     xv = 0;
